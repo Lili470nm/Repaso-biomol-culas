@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Actividad de repaso: Biomoléculas</title>
+<style>
+  :root{
+    --guinda:#7a1730;
+    --guinda2:#9d2647;
+    --fondo:#f5f6f8;
+    --texto:#242424;
+    --gris:#6b7280;
+    --borde:#d9dde3;
+    --ok:#1f7a4d;
+    --bad:#b42318;
+    --card:#ffffff;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:"Century Gothic","Aptos","Segoe UI",Arial,sans-serif;
+    background:var(--fondo);
+    color:var(--texto);
+    line-height:1.45;
+  }
+  .hero{
+    background:linear-gradient(135deg,var(--guinda),var(--guinda2));
+    color:white;
+    padding:34px 20px 30px;
+  }
+  .hero .wrap{max-width:980px;margin:auto}
+  h1{margin:0 0 8px;font-size:clamp(1.7rem,4vw,2.6rem)}
+  .sub{margin:0;max-width:800px;font-size:1.03rem}
+  .wrap{max-width:980px;margin:0 auto;padding:20px}
+  .info{
+    background:#fff;
+    border:1px solid var(--borde);
+    border-left:6px solid var(--guinda);
+    border-radius:12px;
+    padding:16px 18px;
+    margin:2px 0 20px;
+  }
+  .topbar{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:16px;
+  }
+  .pill{
+    background:#fff;
+    border:1px solid var(--borde);
+    border-radius:999px;
+    padding:9px 14px;
+    font-weight:700;
+  }
+  .question{
+    background:var(--card);
+    border:1px solid var(--borde);
+    border-radius:14px;
+    padding:20px;
+    margin:16px 0;
+    box-shadow:0 2px 8px rgba(0,0,0,.035);
+  }
+  .qhead{
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    margin-bottom:12px;
+  }
+  .qnum{font-weight:800;color:var(--guinda)}
+  .topic{
+    color:var(--gris);
+    font-size:.9rem;
+    white-space:nowrap;
+  }
+  .question p{
+    font-size:1.05rem;
+    font-weight:700;
+    margin:4px 0 14px;
+  }
+  label.option{
+    display:block;
+    border:1px solid var(--borde);
+    border-radius:10px;
+    padding:11px 12px;
+    margin:9px 0;
+    cursor:pointer;
+    transition:.15s ease;
+    font-weight:500;
+  }
+  label.option:hover{border-color:var(--guinda2);background:#fff8fa}
+  input[type="radio"]{margin-right:9px;accent-color:var(--guinda)}
+  .actions{
+    position:sticky;
+    bottom:0;
+    padding:14px 0 18px;
+    background:linear-gradient(to top,var(--fondo) 70%,rgba(245,246,248,0));
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    justify-content:center;
+  }
+  button{
+    border:none;
+    border-radius:10px;
+    padding:13px 19px;
+    font-family:inherit;
+    font-size:1rem;
+    font-weight:800;
+    cursor:pointer;
+  }
+  #submitBtn{background:var(--guinda);color:#fff}
+  #resetBtn{background:#fff;color:var(--guinda);border:1px solid var(--guinda)}
+  #result{
+    display:none;
+    background:#fff;
+    border:2px solid var(--guinda);
+    border-radius:16px;
+    padding:22px;
+    margin:22px 0;
+  }
+  .score{font-size:1.55rem;font-weight:900;color:var(--guinda);margin-bottom:8px}
+  .breakdown{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(185px,1fr));
+    gap:10px;
+    margin-top:15px;
+  }
+  .mini{
+    background:#f8f9fb;
+    border:1px solid var(--borde);
+    border-radius:10px;
+    padding:12px;
+  }
+  .correct{border-color:#86c7a8!important;background:#f2fbf6!important}
+  .incorrect{border-color:#e5a5a0!important;background:#fff5f4!important}
+  .feedback{
+    margin-top:10px;
+    padding:10px 12px;
+    border-radius:9px;
+    font-size:.94rem;
+    display:none;
+  }
+  .feedback.ok{background:#eef8f2;color:var(--ok)}
+  .feedback.bad{background:#fff0ef;color:var(--bad)}
+  .footer{
+    color:var(--gris);
+    font-size:.9rem;
+    text-align:center;
+    padding:10px 0 30px;
+  }
+  @media (max-width:640px){
+    .question{padding:16px}
+    .qhead{flex-direction:column;gap:2px}
+    .topic{white-space:normal}
+  }
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <h1>Actividad de repaso: Biomoléculas</h1>
+    <p class="sub">Carbohidratos, proteínas, lípidos, ADN y ARN · 30 preguntas de opción múltiple</p>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="info">
+    <strong>Instrucciones:</strong> selecciona una respuesta en cada pregunta. Al finalizar, pulsa
+    <strong>“Revisar actividad”</strong> para obtener tu puntuación y revisar tus respuestas.
+  </div>
+
+  <div class="topbar">
+    <div class="pill" id="progress">Respondidas: 0 / 30</div>
+    <div class="pill">Valor: 1 punto por pregunta</div>
+  </div>
+
+  <form id="quiz"></form>
+
+  <section id="result" aria-live="polite"></section>
+
+  <div class="actions">
+    <button type="button" id="submitBtn">Revisar actividad</button>
+    <button type="button" id="resetBtn">Reiniciar</button>
+  </div>
+
+  <div class="footer">Repaso de Bioquímica para Odontología</div>
+</main>
+
+<script>
+const questions = [
+  {
+    topic:"Carbohidratos",
+    q:"¿Cuál de los siguientes carbohidratos funciona como una fuente inmediata de energía para muchas células?",
+    options:["Glucosa","Celulosa","Colágeno","Colesterol"],
+    answer:0,
+    exp:"La glucosa es un monosacárido central en el metabolismo energético."
+  },
+  {
+    topic:"Carbohidratos",
+    q:"¿Qué característica define a un monosacárido?",
+    options:["Es la unidad más simple de los carbohidratos","Está formado por aminoácidos","Siempre contiene fósforo","Está formado por tres ácidos grasos"],
+    answer:0,
+    exp:"Los monosacáridos son las unidades más simples de los carbohidratos."
+  },
+  {
+    topic:"Carbohidratos",
+    q:"¿Cuál de las siguientes sustancias es un disacárido?",
+    options:["Sacarosa","Glucosa","Glucógeno","Celulosa"],
+    answer:0,
+    exp:"La sacarosa es un disacárido; glucosa es monosacárido y glucógeno/celulosa son polisacáridos."
+  },
+  {
+    topic:"Carbohidratos",
+    q:"¿Cuál es el principal polisacárido de reserva en animales?",
+    options:["Glucógeno","Almidón","Celulosa","Sacarosa"],
+    answer:0,
+    exp:"El glucógeno es el polisacárido de reserva característico de los animales."
+  },
+  {
+    topic:"Carbohidratos",
+    q:"¿Qué polisacárido cumple principalmente una función estructural en las plantas?",
+    options:["Celulosa","Glucógeno","Sacarosa","Maltosa"],
+    answer:0,
+    exp:"La celulosa forma parte de la pared celular vegetal y cumple una función estructural."
+  },
+  {
+    topic:"Carbohidratos",
+    q:"¿Qué enzima de la saliva inicia la digestión del almidón?",
+    options:["α-amilasa salival","Pepsina","Lipasa pancreática","Colagenasa"],
+    answer:0,
+    exp:"La α-amilasa salival comienza la hidrólisis del almidón en la cavidad oral."
+  },
+  {
+    topic:"Carbohidratos",
+    q:"¿Por qué la sacarosa tiene importancia especial en el desarrollo del biofilm cariogénico?",
+    options:["Puede ser utilizada por bacterias para producir ácidos y polisacáridos extracelulares","Neutraliza de forma permanente el pH oral","Impide la adhesión bacteriana","Destruye directamente el esmalte sin participación microbiana"],
+    answer:0,
+    exp:"La sacarosa favorece tanto la producción de ácidos como la síntesis de polisacáridos extracelulares del biofilm."
+  },
+  {
+    topic:"Carbohidratos",
+    q:"Una persona consume bebidas azucaradas muchas veces durante el día. ¿Qué efecto favorece el riesgo de caries?",
+    options:["Descensos repetidos del pH por fermentación bacteriana","Aumento permanente del pH por encima de 9","Eliminación total del biofilm","Transformación de glucosa en colágeno"],
+    answer:0,
+    exp:"La exposición frecuente a carbohidratos fermentables favorece descensos repetidos del pH y desmineralización."
+  },
+
+  {
+    topic:"Proteínas",
+    q:"¿Cuál es la unidad básica que forma a las proteínas?",
+    options:["Aminoácido","Nucleótido","Ácido graso","Monosacárido"],
+    answer:0,
+    exp:"Las proteínas son polímeros formados por aminoácidos."
+  },
+  {
+    topic:"Proteínas",
+    q:"¿Cómo se llama el enlace que une a dos aminoácidos en una cadena proteica?",
+    options:["Enlace peptídico","Enlace glucosídico","Enlace fosfodiéster","Puente de hidrógeno exclusivamente"],
+    answer:0,
+    exp:"El enlace peptídico une aminoácidos para formar péptidos y proteínas."
+  },
+  {
+    topic:"Proteínas",
+    q:"¿Cuál es una función principal de las enzimas?",
+    options:["Disminuir la energía de activación de una reacción","Aumentar siempre la temperatura celular","Almacenar la información genética","Formar directamente triglicéridos sin reacción química"],
+    answer:0,
+    exp:"Las enzimas aceleran reacciones al disminuir la energía de activación."
+  },
+  {
+    topic:"Proteínas",
+    q:"¿Qué ocurre durante la desnaturalización de una proteína?",
+    options:["Se altera su conformación y puede perder su función","Se convierte en ADN","Se transforma en un lípido","Siempre aumenta su actividad"],
+    answer:0,
+    exp:"La desnaturalización modifica la estructura tridimensional y puede afectar la función."
+  },
+  {
+    topic:"Proteínas",
+    q:"¿Qué proteína es especialmente importante en dentina y tejidos del periodonto?",
+    options:["Colágeno tipo I","Hemoglobina","Insulina","Queratina exclusivamente"],
+    answer:0,
+    exp:"El colágeno tipo I es un componente estructural importante de la dentina y del periodonto."
+  },
+  {
+    topic:"Proteínas",
+    q:"¿Qué proteína está estrechamente relacionada con la formación y organización del esmalte durante su desarrollo?",
+    options:["Amelogenina","Actina","Albúmina","Fibrinógeno"],
+    answer:0,
+    exp:"La amelogenina participa en el desarrollo y organización de la matriz del esmalte."
+  },
+  {
+    topic:"Proteínas",
+    q:"Las glucosiltransferasas producidas por bacterias como Streptococcus mutans favorecen principalmente:",
+    options:["La síntesis de glucanos que contribuyen a la matriz del biofilm","La formación de ADN humano","La degradación de triglicéridos en sangre","La mineralización directa del esmalte"],
+    answer:0,
+    exp:"Estas enzimas favorecen la formación de glucanos que facilitan adhesión y organización del biofilm."
+  },
+  {
+    topic:"Proteínas",
+    q:"En enfermedad periodontal, una actividad elevada de metaloproteinasas de matriz (MMP) puede contribuir a:",
+    options:["La degradación de colágeno y destrucción tisular","La síntesis de sacarosa","La formación de bases nitrogenadas","La producción de esmalte nuevo"],
+    answer:0,
+    exp:"Las MMP pueden degradar componentes de la matriz extracelular, incluido el colágeno."
+  },
+
+  {
+    topic:"Lípidos",
+    q:"¿Cuál de las siguientes funciones corresponde a los lípidos?",
+    options:["Reserva energética y formación de membranas","Almacenamiento exclusivo de información genética","Formación de enlaces peptídicos","Síntesis directa de glucógeno"],
+    answer:0,
+    exp:"Los lípidos participan en reserva energética, membranas y señalización, entre otras funciones."
+  },
+  {
+    topic:"Lípidos",
+    q:"¿De qué componentes está formado un triglicérido?",
+    options:["Glicerol y tres ácidos grasos","Glucosa y fructosa","Tres aminoácidos y fosfato","Ribosa y tres bases nitrogenadas"],
+    answer:0,
+    exp:"Un triglicérido está formado por una molécula de glicerol unida a tres ácidos grasos."
+  },
+  {
+    topic:"Lípidos",
+    q:"¿Qué tipo de lípido es un componente fundamental de las membranas celulares?",
+    options:["Fosfolípido","Glucógeno","Colágeno","ADN"],
+    answer:0,
+    exp:"Los fosfolípidos forman la base de la bicapa de las membranas celulares."
+  },
+  {
+    topic:"Lípidos",
+    q:"Un ácido graso saturado se caracteriza por:",
+    options:["No presentar dobles enlaces carbono-carbono","Presentar siempre tres dobles enlaces","Contener una base nitrogenada","Ser un polisacárido"],
+    answer:0,
+    exp:"Los ácidos grasos saturados no tienen dobles enlaces C=C en su cadena hidrocarbonada."
+  },
+  {
+    topic:"Lípidos",
+    q:"Un ácido graso insaturado se caracteriza por:",
+    options:["Presentar uno o más dobles enlaces carbono-carbono","No contener carbono","Estar formado por aminoácidos","Ser siempre sólido a cualquier temperatura"],
+    answer:0,
+    exp:"La presencia de uno o más dobles enlaces define a un ácido graso insaturado."
+  },
+  {
+    topic:"Lípidos",
+    q:"¿Cuál de las siguientes afirmaciones sobre el colesterol es correcta?",
+    options:["Es un lípido esteroide y componente de membranas","Es un polisacárido vegetal","Es una enzima salival","Es una base nitrogenada"],
+    answer:0,
+    exp:"El colesterol es un esterol que participa en membranas y sirve como precursor de otras moléculas."
+  },
+  {
+    topic:"Lípidos",
+    q:"En la cavidad oral, los lípidos presentes en la película adquirida pueden contribuir a:",
+    options:["Modificar la permeabilidad y aumentar la resistencia frente a algunos ácidos","Convertir directamente el esmalte en dentina","Romper todos los enlaces peptídicos","Eliminar por completo la microbiota oral"],
+    answer:0,
+    exp:"Los componentes lipídicos de la película adquirida pueden influir en su barrera y resistencia frente a ácidos."
+  },
+  {
+    topic:"Lípidos",
+    q:"¿Cuál es la función general de las lipoproteínas como LDL y HDL?",
+    options:["Transportar lípidos en la sangre","Formar enlaces glucosídicos","Copiar ADN","Digestionar proteínas en la boca"],
+    answer:0,
+    exp:"Las lipoproteínas permiten transportar colesterol y otros lípidos en un medio acuoso como la sangre."
+  },
+
+  {
+    topic:"ADN y ARN",
+    q:"¿Cuáles son los tres componentes básicos de un nucleótido?",
+    options:["Grupo fosfato, azúcar pentosa y base nitrogenada","Glicerol, ácido graso y glucosa","Aminoácido, fosfato y colesterol","Glucosa, fructosa y galactosa"],
+    answer:0,
+    exp:"Cada nucleótido contiene fosfato, una pentosa y una base nitrogenada."
+  },
+  {
+    topic:"ADN y ARN",
+    q:"¿Qué azúcar forma parte del ADN?",
+    options:["Desoxirribosa","Ribosa","Glucosa","Fructosa"],
+    answer:0,
+    exp:"El ADN contiene desoxirribosa; el ARN contiene ribosa."
+  },
+  {
+    topic:"ADN y ARN",
+    q:"¿Qué base nitrogenada aparece en el ARN en lugar de timina?",
+    options:["Uracilo","Adenina","Guanina","Citosina"],
+    answer:0,
+    exp:"En el ARN, el uracilo sustituye a la timina."
+  },
+  {
+    topic:"ADN y ARN",
+    q:"¿Cuál de las siguientes descripciones corresponde mejor al ADN?",
+    options:["Generalmente es bicatenario y almacena información genética","Está formado por ácidos grasos","Es siempre una enzima","Su azúcar es ribosa y contiene uracilo"],
+    answer:0,
+    exp:"El ADN suele presentarse como doble cadena y almacena la información genética."
+  },
+  {
+    topic:"ADN y ARN",
+    q:"En el ADN, ¿qué pares de bases son complementarios?",
+    options:["A-T y G-C","A-G y T-C","A-C y G-T","A-U y G-C"],
+    answer:0,
+    exp:"En ADN, adenina se aparea con timina y guanina con citosina."
+  },
+  {
+    topic:"ADN y ARN",
+    q:"¿Qué es un gen?",
+    options:["Una región de ADN que contiene información para generar un producto funcional","Un tipo de ácido graso","Una reserva de glucosa","Una enzima que rompe proteínas"],
+    answer:0,
+    exp:"Un gen es una región de ADN cuya información puede dar lugar a un producto funcional."
+  },
+  {
+    topic:"ADN y ARN",
+    q:"¿Cuál relación resume mejor el flujo general de información utilizado para la síntesis de proteínas?",
+    options:["ADN → ARN → proteína","Proteína → lípido → ADN","Glucosa → ADN → colesterol","ARN → triglicérido → proteína"],
+    answer:0,
+    exp:"De forma general, la información del ADN se expresa a través del ARN para producir proteínas."
+  }
+];
+
+const quiz = document.getElementById("quiz");
+const result = document.getElementById("result");
+const progress = document.getElementById("progress");
+
+function renderQuiz(){
+  quiz.innerHTML = "";
+  questions.forEach((item, i) => {
+    const box = document.createElement("section");
+    box.className = "question";
+    box.id = "qbox-" + i;
+
+    const head = document.createElement("div");
+    head.className = "qhead";
+    head.innerHTML = `<span class="qnum">Pregunta ${i+1}</span><span class="topic">${item.topic}</span>`;
+    box.appendChild(head);
+
+    const p = document.createElement("p");
+    p.textContent = item.q;
+    box.appendChild(p);
+
+    item.options.forEach((opt, j) => {
+      const lab = document.createElement("label");
+      lab.className = "option";
+      lab.innerHTML = `<input type="radio" name="q${i}" value="${j}"> ${String.fromCharCode(65+j)}) ${opt}`;
+      box.appendChild(lab);
+    });
+
+    const fb = document.createElement("div");
+    fb.className = "feedback";
+    fb.id = "fb-" + i;
+    box.appendChild(fb);
+
+    quiz.appendChild(box);
+  });
+
+  document.querySelectorAll('input[type="radio"]').forEach(r => {
+    r.addEventListener("change", updateProgress);
+  });
+  updateProgress();
+}
+
+function updateProgress(){
+  let answered = 0;
+  questions.forEach((_, i) => {
+    if(document.querySelector(`input[name="q${i}"]:checked`)) answered++;
+  });
+  progress.textContent = `Respondidas: ${answered} / ${questions.length}`;
+}
+
+function grade(){
+  let score = 0;
+  const topics = {};
+  let unanswered = 0;
+
+  questions.forEach((item, i) => {
+    if(!topics[item.topic]) topics[item.topic] = {ok:0,total:0};
+    topics[item.topic].total++;
+
+    const selected = document.querySelector(`input[name="q${i}"]:checked`);
+    const box = document.getElementById("qbox-" + i);
+    const fb = document.getElementById("fb-" + i);
+    const labels = box.querySelectorAll("label.option");
+
+    labels.forEach(l => l.classList.remove("correct","incorrect"));
+    fb.className = "feedback";
+    fb.style.display = "block";
+
+    if(!selected){
+      unanswered++;
+      fb.classList.add("bad");
+      fb.innerHTML = `<strong>Sin responder.</strong> Respuesta correcta: ${String.fromCharCode(65+item.answer)}) ${item.options[item.answer]}. ${item.exp}`;
+      labels[item.answer].classList.add("correct");
+      return;
+    }
+
+    const chosen = Number(selected.value);
+    if(chosen === item.answer){
+      score++;
+      topics[item.topic].ok++;
+      labels[chosen].classList.add("correct");
+      fb.classList.add("ok");
+      fb.innerHTML = `<strong>Correcta.</strong> ${item.exp}`;
+    }else{
+      labels[chosen].classList.add("incorrect");
+      labels[item.answer].classList.add("correct");
+      fb.classList.add("bad");
+      fb.innerHTML = `<strong>Incorrecta.</strong> Respuesta correcta: ${String.fromCharCode(65+item.answer)}) ${item.options[item.answer]}. ${item.exp}`;
+    }
+  });
+
+  const pct = Math.round((score/questions.length)*100);
+  let msg = pct >= 90 ? "Excelente dominio del tema." :
+            pct >= 80 ? "Muy buen resultado." :
+            pct >= 70 ? "Buen avance; conviene repasar algunos conceptos." :
+            "Conviene repasar los conceptos fundamentales antes de continuar.";
+
+  const breakdown = Object.entries(topics).map(([name,val]) =>
+    `<div class="mini"><strong>${name}</strong><br>${val.ok} / ${val.total} correctas</div>`
+  ).join("");
+
+  result.innerHTML = `
+    <div class="score">${score} / ${questions.length} · ${pct}%</div>
+    <div>${msg}</div>
+    ${unanswered ? `<div style="margin-top:8px;color:#b42318"><strong>Preguntas sin responder:</strong> ${unanswered}</div>` : ""}
+    <div class="breakdown">${breakdown}</div>
+  `;
+  result.style.display = "block";
+  result.scrollIntoView({behavior:"smooth", block:"start"});
+}
+
+function resetQuiz(){
+  quiz.reset();
+  document.querySelectorAll(".option").forEach(l => l.classList.remove("correct","incorrect"));
+  document.querySelectorAll(".feedback").forEach(f => {f.style.display="none"; f.innerHTML="";});
+  result.style.display = "none";
+  result.innerHTML = "";
+  updateProgress();
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+document.getElementById("submitBtn").addEventListener("click", grade);
+document.getElementById("resetBtn").addEventListener("click", resetQuiz);
+
+renderQuiz();
+</script>
+</body>
+</html>
